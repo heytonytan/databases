@@ -8,9 +8,11 @@ module.exports = function(sequelize, DataTypes) {
     },
     username: {
       type: DataTypes.STRING,
-      allowNull: true
+      allowNull: true,
+      unique: true
     }
   }, {
-    tableName: 'users'
+    tableName: 'users',
+    timestamps: false
   });
 };

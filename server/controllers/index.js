@@ -9,7 +9,6 @@ module.exports = {
       });
     }, // a function which handles a get request for all messages
     post: function (req, res) {
-      console.log('Controller message post:', req);
       var data = req.body;
       models.messages.post(data, function() {
         res.send('new message added');

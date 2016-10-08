@@ -26,8 +26,7 @@ var app = {
 
     // Fetch previous messages
     app.startSpinner();
-    //app.fetch(false);
-    app.stopSpinner();
+    app.fetch(false);
     // Poll for new messages
     // setInterval(function() {
     //   app.fetch(true);
@@ -43,7 +42,7 @@ var app = {
       type: 'POST',
       data: JSON.stringify(message),
       contentType: 'application/json; charset=utf-8',
-      dataType: 'json',
+      // dataType: 'json',
       success: function (data) {
         // Clear messages input
         console.log('client side add', data);
@@ -67,6 +66,8 @@ var app = {
       success: function(data) {
         // Don't bother if we have nothing to work with
         if (!data || !data.length) { app.stopSpinner(); return; }
+
+        console.log('client side', data);
 
         // Store messages for caching later
         app.messages = data;
@@ -147,7 +148,6 @@ var app = {
   },
 
   renderMessage: function(message) {
-    console.log('one message', message);
     if (!message.roomname) {
       message.roomname = 'lobby';
     }

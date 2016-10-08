@@ -6,7 +6,6 @@ module.exports = {
       db.getMessages(callback);
     }, // a function which produces all the messages
     post: function (data, callback) {
-      console.log('model postmessage', data);
       db.postMessage(data, callback);
     } // a function which can be used to insert a message into the database
   },
