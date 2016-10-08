@@ -26,12 +26,12 @@ var app = {
 
     // Fetch previous messages
     app.startSpinner();
-    app.fetch(false);
-
+    //app.fetch(false);
+    app.stopSpinner();
     // Poll for new messages
-    setInterval(function() {
-      app.fetch(true);
-    }, 3000);
+    // setInterval(function() {
+    //   app.fetch(true);
+    // }, 3000);
   },
 
   send: function(message) {

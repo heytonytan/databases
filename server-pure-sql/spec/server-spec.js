@@ -20,7 +20,7 @@ describe('Persistent Node Chat Server', function() {
 
     /* Empty the db table before each test so that multiple tests
      * (or repeated runs of the tests) won't screw each other up: */
-    // dbConnection.query('truncate ' + tablename, done);
+    dbConnection.query('truncate ' + tablename, done);
   });
 
   afterEach(function() {
@@ -65,7 +65,7 @@ describe('Persistent Node Chat Server', function() {
     });
   });
 
-  xit('Should output all messages from the DB', function(done) {
+  it('Should output all messages from the DB', function(done) {
     // Let's insert a message into the db
     var message = 'Men like you can never change!';
     var roomname = 'main';
