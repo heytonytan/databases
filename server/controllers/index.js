@@ -4,11 +4,12 @@ module.exports = {
   messages: {
     get: function (req, res) {
       models.messages.get(function(data) {
-        res.send(JSON.stringify(data));
+        console.log('get request -> data', JSON.stringify(data));
+        res.send(data);
       });
     }, // a function which handles a get request for all messages
     post: function (req, res) {
-      var data = JSON.parse(req.json);
+      var data = req.body;
       models.messages.post(data, function() {
         res.send('new message added');
       });
@@ -24,9 +25,13 @@ module.exports = {
       // });
     },
     post: function (req, res) {
-      var data = JSON.parse(req.json);
-      models.users.post(data, function() {
-        res.send('new user added');
+      var data = req.body;
+      models.users.post(data, function(error) {
+        if (error) {
+          res.send('user already exists');
+        } else {
+          res.send('new user added');
+        }
       });
     }
   }

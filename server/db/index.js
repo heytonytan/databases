@@ -10,7 +10,7 @@ var initializeDb = function() {
     password: 'fintony',
     database: 'chat'
   });
-  
+
   dbConnection.connect();
   return dbConnection;
 };
@@ -22,12 +22,18 @@ module.exports._getUserId = function(username, callback) {
   // generate createdAt
   // invoke callback when done
   var dbConnection = initializeDb();
-  dbConnection.query('SELECT id from users where username = :username', 
-    { username: username },
-    function(err, userId) {
+  dbConnection.query(`SELECT id from users where username="${username}"`, 
+    function(err, data) {
       dbConnection.end();
       if (err) { throw err; }
-      callback(userId);
+      if (data.length === 0) {
+        module.exports.postUser({ username: username }, function() {
+          module.exports._getUserId(username, callback);
+        });
+      } else {
+        var userId = data[0].id;
+        callback(userId);
+      }
     });
 
 };
@@ -52,9 +58,8 @@ module.exports.postMessage = function(data, callback) {
   // generate createdAt
   // invoke callback when done
   var dbConnection = initializeDb();
-  dbConnection.getUserId(data.username, function(userId) {
-    dbConnection.query('INSERT INTO messages SET message=:message, roomname=:roomname, userid=:userid', 
-      { message: data.message, roomname: data.roomname, userid: userId }, 
+  this._getUserId(data.username, function(userId) {
+    dbConnection.query(`INSERT INTO messages SET message="${data.message}", roomname="${data.roomname}", userid=${userId}`, 
       function(err) {
         dbConnection.end();
         if (err) { 
@@ -71,14 +76,15 @@ module.exports.postUser = function(data, callback) {
   // username
   // invoke callback when done
   var dbConnection = initializeDb();
-  dbConnection.query('INSERT INTO users SET username=:username', 
-    { username: data.username }, 
+  dbConnection.query(`INSERT INTO users SET username="${data.username}"`, 
     function(err) {
       dbConnection.end();
       if (err) { 
-        throw err; 
+        // throw err; 
+        console.log('user', data.username, 'already exists');
+        callback(err);
       } else {
-        callback();
+        callback(null);
       }
     });
 };

@@ -17,7 +17,8 @@ CREATE TABLE `messages` (
 CREATE TABLE `users` (
   `id` INTEGER NULL AUTO_INCREMENT DEFAULT NULL,
   `username` VARCHAR(50) NULL DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  UNIQUE (`username`)
 );
 
 -- Remove link to allow TRUNCATE
