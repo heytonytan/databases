@@ -41,7 +41,7 @@ module.exports._getUserId = function(username, callback) {
 module.exports.getMessages = function(callback) {
   
   var dbConnection = initializeDb();
-  dbConnection.query('SELECT u.username, m.message, m.roomname, m.createdAt FROM messages m INNER JOIN users u ON m.userId = u.id', 
+  dbConnection.query('SELECT m.id, u.username, m.message, m.roomname, m.createdAt FROM messages m INNER JOIN users u ON m.userId = u.id', 
     function(err, data) {
       dbConnection.end();
       if (err) { 
